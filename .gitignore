@@ -1,0 +1,4 @@
+/target
+obj
+c_and_ada_bindings
+*.out

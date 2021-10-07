@@ -1,0 +1,11 @@
+V "GNAT Lib v23.20210923"
+A -gnatA
+A -fpreserve-control-flow
+A -fdump-scos
+A -g
+A -mtune=generic
+A -march=x86-64
+P ZX
+
+/home/meyraud/rust/hw/hello.rs
+CS 13:4-13:29
