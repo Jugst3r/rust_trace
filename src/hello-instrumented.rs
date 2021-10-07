@@ -7,10 +7,6 @@
 
 // This is the main function
 
-#[link(name = "bindings")]
-extern "C" {
-    fn gnatcov_rts_hello_rs_dump_buffers();
-}
 include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
 
 fn main() {

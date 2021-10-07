@@ -1,4 +1,4 @@
-#include "gnatcov_rts_c_traces_output_files.h"
+#include "gnatcov_rts_c_traces_output_base64.h"
 #include "gnatcov_rts_c_interface.h"
 #include <stdlib.h>
 

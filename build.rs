@@ -1,12 +1,16 @@
 extern crate bindgen;
 
 use std::env;
+use std::path::Path;
 use std::path::PathBuf;
 
 fn main() {
-    println!("cargo:rustc-link-search=/home/meyraud/rust/hw/c_and_ada_bindings/");
-    println!("cargo:rustc-link-search=/home/meyraud/wave/x86_64-linux/gnatall/install/lib/gnatcov_rts");
-    println!("cargo:rustc-link-lib=gnatcov_rts");
+
+    let gnatcov_rts_include_path = Path::new("/home/meyraud/wave/x86_64-linux/gnatall/install/include/gnatcov_rts");
+    let gnatcov_rts_lib_path = Path::new("/home/meyraud/wave/x86_64-linux/gnatall/install/lib/gnatcov_rts");
+
+    println!("cargo:rustc-link-search={}", gnatcov_rts_lib_path.display());
+    println!("cargo:rustc-link-lib=static=gnatcov_rts");
 
     // Tell cargo to invalidate the built crate whenever the wrapper changes
     println!("cargo:rerun-if-changed=wrapper.h");
@@ -24,6 +28,13 @@ fn main() {
         .generate()
         // Unwrap the Result and panic on failure.
         .expect("Unable to generate bindings");
+
+    println!("cargo:rerun-if-changed=src/hello.c");
+    cc::Build::new()
+        .file("src/buffers_hello_rs.c")
+        .file("src/dump_buffers.c")
+        .include(gnatcov_rts_include_path)
+        .compile("buffers_units");
 
     // Write the bindings to the $OUT_DIR/bindings.rs file.
     let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());
